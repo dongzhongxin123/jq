@@ -1,0 +1,23 @@
+server:
+  port: 8089
+  jsp-servlet:
+    init-parameters:
+      development: true
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.219.111:3306/ems
+    username: root
+    password: root
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+      suffix: .jsp
+      prefix: /
+    date-format: yyyy-MM-dd
+  jackson:
+       date-format: yyyy-MM-dd
+
+mybatis:
+  mapper-locations: classpath:com/baizhi/mapper/*Mapper.xml
+  type-aliases-package: com.baizhi.entity

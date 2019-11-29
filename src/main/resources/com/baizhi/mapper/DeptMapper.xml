@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.DeptDao">
+
+    <select id="findAllDept" resultType="com.baizhi.entity.Dept">
+        SELECT
+            id,
+            name
+        FROM dept
+    </select>
+
+    <select id="findAllDeptByPage" resultType="com.baizhi.entity.Dept">
+        SELECT
+            id,
+            name
+        FROM dept limit #{start}, #{rows}
+    </select>
+
+    <select id="findCount" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM dept
+    </select>
+
+    <insert id="addDept">
+        INSERT INTO dept (id, name) VALUES (#{id}, #{name})
+    </insert>
+
+    <delete id="deleteDept">
+        DELETE FROM dept
+        WHERE id = #{id}
+    </delete>
+
+    <update id="updateDept">
+        UPDATE dept
+        SET name = #{name}
+        WHERE id = #{id}
+    </update>
+</mapper>

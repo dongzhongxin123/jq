@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.dao.EmpDap">
+
+    <resultMap id="aa" type="emp">
+        <id column="eid" property="id"/>
+        <result column="ename" property="name"/>
+        <result column="eage" property="age"/>
+        <result column="ebir" property="bir"/>
+        <association property="dept" javaType="dept">
+            <id column="did" property="id"/>
+            <result column="dname" property="name"/>
+        </association>
+    </resultMap>
+
+    <!--查询所有-->
+    <select id="selectAllEmp" resultType="com.baizhi.entity.Emp">
+        SELECT *
+        FROM emp
+    </select>
+
+
+    <select id="selectEmpAndDept" resultMap="aa">
+        SELECT
+            e.id   eid,
+            e.name ename,
+            e.age  eage,
+            e.bir  ebir,
+            d.id   did,
+            d.name dname
+        FROM emp e LEFT JOIN dept d
+                ON e.deptid = d.id
+    </select>
+
+    <select id="findAllByPage" resultMap="aa">
+        SELECT
+            e.id   eid,
+            e.name ename,
+            e.age  eage,
+            e.bir  ebir,
+            d.id   did,
+            d.name dname
+        FROM (SELECT
+                  id,
+                  name,
+                  age,
+                  bir,
+                  deptid
+              FROM emp limit #{start}, #{rows}) e
+            LEFT JOIN dept d
+                ON e.deptid = d.id
+    </select>
+
+    <select id="selectTotal" resultType="java.lang.Integer">
+        SELECT count(id)
+        FROM emp
+    </select>
+
+    <insert id="save">
+        INSERT INTO emp (id, name, age, bir, deptid) VALUES (#{id}, #{name}, #{age}, #{bir}, #{dept.id})
+    </insert>
+
+    <delete id="deleteEmpById">
+        DELETE FROM emp
+        WHERE id = #{id}
+    </delete>
+
+    <update id="update">
+        UPDATE emp
+        SET name = #{name}, age = #{age}, bir = #{bir}, deptid = #{dept.id}
+        WHERE id = #{id}
+    </update>
+</mapper>
